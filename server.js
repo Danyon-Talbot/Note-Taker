@@ -61,6 +61,29 @@ app.post('/api/notes', (req, res) => {
     });
 });
 
+// API route to delete a note by ID
+app.delete('/api/notes/:id', (req, res) => {
+    const noteId = parseInt(req.params.id);
+    fs.readFile(path.join(__dirname, 'db', 'db.json'), 'utf8', (err, data) => {
+        if (err) {
+            console.error(err);
+            res.status(500).json({ error: 'Internal Server Error' });
+        } else {
+            const notes = JSON.parse(data);
+            const updatedNotes = notes.filter((note) => note.id !== noteId);
+
+            fs.writeFile(path.join(__dirname, 'db', 'db.json'), JSON.stringify(updatedNotes), (err) => {
+                if (err) {
+                    console.error(err);
+                    res.status(500).json({ error: 'Internal Server Error' });
+                } else {
+                    res.json({ message: 'Note Deleted' });
+                }
+            });
+        }
+    });
+});
+
 app.listen(PORT, () => {
     console.log(`App listening on http://localhost:${PORT}`);
 });
