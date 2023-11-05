@@ -10,17 +10,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Serve static files from the "public" directory
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Route to serve the landing page
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // Route to serve the notes page
-app.get('/notes', (req, res) => {
-    res.sendFile(path.join(__dirname, 'notes.html'));
+app.get(['/notes', '/notes.html', '/'], (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'notes.html'));
 });
+
 
 // API route to get existing notes
 app.get('/api/notes', (req, res) => {
@@ -37,7 +38,7 @@ app.get('/api/notes', (req, res) => {
 
 // API route to save a new note
 app.post('/api/notes', (req, res) => {
-    const newNote = req.body;
+    const note = req.body;
 
     fs.readFile(path.join(__dirname, 'db', 'db.json'), 'utf8', (err, data) => {
         if (err) {
@@ -45,15 +46,15 @@ app.post('/api/notes', (req, res) => {
             res.status(500).json({ error: 'Internal Server Error' });
         } else {
             const notes = JSON.parse(data);
-            newNote.id = Date.now();
-            notes.push(newNote);
+            note.id = Date.now();
+            notes.push(note);
 
             fs.writeFile(path.join(__dirname, 'db', 'db.json'), JSON.stringify(notes), (err) => {
                 if (err) {
                     console.error(err);
                     res.status(500).json({ error: 'Internal Server Error' });
                 } else {
-                    res.json(newNote);
+                    res.json(note);
                 }
             });
         }
