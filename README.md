@@ -49,7 +49,7 @@
 ## Credits:
 
 * [Express.js Documentation](https://expressjs.com/)
-* [Example URL for W3 Schools](https://www.w3schools.com/nodejs/default.asp)
+* [W3 Schools](https://www.w3schools.com/nodejs/default.asp)
 
 ## Contributions:
 
