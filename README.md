@@ -32,7 +32,7 @@
 
 ## Website Page:
 
-* [Note Taker](https://rocky-coast-86633-26319f76aeff.herokuapp.com/notes)
+* [Note Taker](https://note-taker-lf4n.onrender.com/)
 
 ## Installation:
 
